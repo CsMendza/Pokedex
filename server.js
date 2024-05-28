@@ -6,7 +6,7 @@ const port = 3000;
 
 // Configurar conexión a la base de datos
 const db = mysql.createConnection({
-    host: 'pokedexdb.cvx3mgu5vzra.us-east-1.rds.amazonaws.com',
+    host: 'pokedex.cbesw00i88cu.us-east-1.rds.amazonaws.com',
     user: 'sebas',
     password: 'mcdonald',
     database: 'pokedex'
@@ -19,8 +19,8 @@ db.connect((err) => {
 
 app.use(bodyParser.json());
 
-// Rutas CRUD
-app.post('/pokemon', (req, res) => {
+// Rutas CRUD en la ruta principal '/'
+app.post('/', (req, res) => {
     const { numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url } = req.body;
     const query = 'INSERT INTO Pokedex (numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     db.query(query, [numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url], (err, result) => {
@@ -29,7 +29,7 @@ app.post('/pokemon', (req, res) => {
     });
 });
 
-app.get('/pokemon/:id', (req, res) => {
+app.get('/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM Pokedex WHERE id = ?';
     db.query(query, [id], (err, result) => {
@@ -38,7 +38,7 @@ app.get('/pokemon/:id', (req, res) => {
     });
 });
 
-app.put('/pokemon/:id', (req, res) => {
+app.put('/:id', (req, res) => {
     const { id } = req.params;
     const { numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url } = req.body;
     const query = 'UPDATE Pokedex SET numero = ?, nombre = ?, altura = ?, peso = ?, categoria = ?, habilidad = ?, tipo = ?, imagen_url = ? WHERE id = ?';
@@ -48,7 +48,7 @@ app.put('/pokemon/:id', (req, res) => {
     });
 });
 
-app.delete('/pokemon/:id', (req, res) => {
+app.delete('/:id', (req, res) => {
     const { id } = req.params;
     const query = 'DELETE FROM Pokedex WHERE id = ?';
     db.query(query, [id], (err, result) => {
@@ -58,5 +58,5 @@ app.delete('/pokemon/:id', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://54.152.16.106:3000/Pokemon`);
+    console.log(`Server running at http://44.213.127.173:3000/`);
 });
