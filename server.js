@@ -6,7 +6,7 @@ const port = 3000;
 
 // Configurar conexión a la base de datos
 const db = mysql.createConnection({
-    host: 'pokedexdb.cbesw00i88cu.us-east-1.rds.amazonaws.com',
+    host: 'pokedexdb.cvx3mgu5vzra.us-east-1.rds.amazonaws.com',
     user: 'sebas',
     password: 'mcdonald',
     database: 'pokedex'
@@ -58,5 +58,5 @@ app.delete('/pokemon/:id', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://44.211.94.54:${port}/`);
+    console.log(`Server running at http://54.152.16.106:3000/Pokemon`);
 });
