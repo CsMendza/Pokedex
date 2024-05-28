@@ -58,5 +58,5 @@ app.delete('/pokemon/:id', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server running at http://database-1.cbesw00i88cu.us-east-1.rds.amazonaws.com:${port}/`);
+    console.log(`Server running at http://54.234.89.106:${port}/`);
 });
