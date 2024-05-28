@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex CRUD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input, button {
+            display: block;
+            margin: 5px 0;
+        }
+        .pokemon {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pokedex CRUD</h1>
+
+    <h2>Create Pokemon</h2>
+    <form id="createForm">
+        <input type="number" id="createNumero" placeholder="Numero" required>
+        <input type="text" id="createNombre" placeholder="Nombre" required>
+        <input type="number" id="createAltura" placeholder="Altura" required>
+        <input type="number" id="createPeso" placeholder="Peso" required>
+        <input type="text" id="createCategoria" placeholder="Categoria">
+        <input type="text" id="createHabilidad" placeholder="Habilidad">
+        <input type="text" id="createTipo" placeholder="Tipo">
+        <input type="text" id="createImagenUrl" placeholder="Imagen URL">
+        <button type="submit">Create</button>
+    </form>
+
+    <h2>Read Pokemon</h2>
+    <form id="readForm">
+        <input type="number" id="readId" placeholder="ID" required>
+        <button type="submit">Read</button>
+    </form>
+    <div id="readResult"></div>
+
+    <h2>Update Pokemon</h2>
+    <form id="updateForm">
+        <input type="number" id="updateId" placeholder="ID" required>
+        <input type="number" id="updateNumero" placeholder="Numero" required>
+        <input type="text" id="updateNombre" placeholder="Nombre" required>
+        <input type="number" id="updateAltura" placeholder="Altura" required>
+        <input type="number" id="updatePeso" placeholder="Peso" required>
+        <input type="text" id="updateCategoria" placeholder="Categoria">
+        <input type="text" id="updateHabilidad" placeholder="Habilidad">
+        <input type="text" id="updateTipo" placeholder="Tipo">
+        <input type="text" id="updateImagenUrl" placeholder="Imagen URL">
+        <button type="submit">Update</button>
+    </form>
+
+    <h2>Delete Pokemon</h2>
+    <form id="deleteForm">
+        <input type="number" id="deleteId" placeholder="ID" required>
+        <button type="submit">Delete</button>
+    </form>
+    <div id="deleteResult"></div>
+
+    <h2>All Pokemons</h2>
+    <button id="getAllPokemonsButton">Get All Pokemons</button>
+    <div id="allPokemonsResult"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
