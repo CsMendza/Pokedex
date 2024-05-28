@@ -5,31 +5,31 @@ provider "aws" {
 
 resource "aws_default_vpc" "default_vpc" {
   tags = {
-    Name = "default vpc"
+    Name = "VPC predeterminada"
   }
 }
 
-# Use data source to get all availability zones in region
+#todas las zonas de disponibilidad en la región
 data "aws_availability_zones" "available_zones" {}
 
-# Crea una subred predeterminada en la primera AZ si no existe una
+# Crea una subred predeterminada en la primera Zona de Disponibilidad si no existe una
 resource "aws_default_subnet" "subnet_az1" {
   availability_zone = data.aws_availability_zones.available_zones.names[0]
 }
 
-# Crea una subred predeterminada en la segunda AZ si no existe una
+# Crea una subred predeterminada en la segunda Zona de Disponibilidad si no existe una
 resource "aws_default_subnet" "subnet_az2" {
   availability_zone = data.aws_availability_zones.available_zones.names[1]
 }
 
-# Security group para el servidor web
+# Grupo de seguridad para el servidor web
 resource "aws_security_group" "webserver_security_group" {
-  name        = "webserver security group"
-  description = "enable http and ssh access"
+  name        = "Grupo de seguridad para servidor web"
+  description = "habilitar acceso http y ssh"
   vpc_id      = aws_default_vpc.default_vpc.id
 
   ingress {
-    description = "http access"
+    description = "acceso http"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -37,7 +37,7 @@ resource "aws_security_group" "webserver_security_group" {
   }
 
   ingress {
-    description = "ssh access"
+    description = "acceso ssh"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
@@ -52,18 +52,18 @@ resource "aws_security_group" "webserver_security_group" {
   }
 
   tags = {
-    Name = "webserver security group"
+    Name = "Grupo de seguridad para servidor web"
   }
 }
 
-# Security group para la base de datos
+# Grupo de seguridad para la base de datos
 resource "aws_security_group" "database_security_group" {
-  name        = "database security group"
-  description = "enable mysql access on port 3306"
+  name        = "Grupo de seguridad para base de datos"
+  description = "habilitar acceso mysql en el puerto 3306"
   vpc_id      = aws_default_vpc.default_vpc.id
 
   ingress {
-    description      = "db access"
+    description      = "acceso db"
     from_port        = 3306
     to_port          = 3306
     protocol         = "tcp"
@@ -78,17 +78,17 @@ resource "aws_security_group" "database_security_group" {
   }
 
   tags = {
-    Name = "database security group"
+    Name = "Grupo de seguridad para base de datos"
   }
 }
 
-# Subnet group para las instancias RDS
+# Grupo de subred para las instancias RDS
 resource "aws_db_subnet_group" "database_subnet_group" {
-  name        = "database-subnets"
+  name        = "subred-db"
   subnet_ids  = [aws_default_subnet.subnet_az1.id, aws_default_subnet.subnet_az2.id]
-  description = "subnets for database instance"
+  description = "subredes para instancia de base de datos"
 
   tags = {
-    Name = "database-subnets"
+    Name = "subred-db"
   }
 }
