@@ -1,3 +1,32 @@
+document.addEventListener('DOMContentLoaded', function() {
+    getAllPokemons();
+});
+
+function getAllPokemons() {
+    fetch('http://your-ec2-instance-public-ip:3000/pokemon')
+        .then(response => response.json())
+        .then(data => {
+            const resultDiv = document.getElementById('allPokemonsResult');
+            resultDiv.innerHTML = '';
+            data.forEach(pokemon => {
+                resultDiv.innerHTML += `
+                    <div class="pokemon">
+                        <p>ID: ${pokemon.id}</p>
+                        <p>Numero: ${pokemon.numero}</p>
+                        <p>Nombre: ${pokemon.nombre}</p>
+                        <p>Altura: ${pokemon.altura}</p>
+                        <p>Peso: ${pokemon.peso}</p>
+                        <p>Categoria: ${pokemon.categoria}</p>
+                        <p>Habilidad: ${pokemon.habilidad}</p>
+                        <p>Tipo: ${pokemon.tipo}</p>
+                        <img src="${pokemon.imagen_url}" alt="${pokemon.nombre}"> <!-- Mostrar la imagen -->
+                    </div>
+                `;
+            });
+        })
+        .catch(error => console.error('Error:', error));
+}
+
 document.getElementById('createForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -46,7 +75,7 @@ document.getElementById('readForm').addEventListener('submit', function(e) {
                         <p>Categoria: ${pokemon.categoria}</p>
                         <p>Habilidad: ${pokemon.habilidad}</p>
                         <p>Tipo: ${pokemon.tipo}</p>
-                        <p>Imagen URL: ${pokemon.imagen_url}</p>
+                        <img src="${pokemon.imagen_url}" alt="${pokemon.nombre}"> <!-- Mostrar la imagen -->
                     </div>
                 `;
             } else {
@@ -97,29 +126,4 @@ document.getElementById('deleteForm').addEventListener('submit', function(e) {
         document.getElementById('deleteResult').innerHTML = data;
     })
     .catch(error => console.error('Error:', error));
-});
-
-document.getElementById('getAllPokemonsButton').addEventListener('click', function() {
-    fetch('http://your-ec2-instance-public-ip:3000/pokemon')
-        .then(response => response.json())
-        .then(data => {
-            const resultDiv = document.getElementById('allPokemonsResult');
-            resultDiv.innerHTML = '';
-            data.forEach(pokemon => {
-                resultDiv.innerHTML += `
-                    <div class="pokemon">
-                        <p>ID: ${pokemon.id}</p>
-                        <p>Numero: ${pokemon.numero}</p>
-                        <p>Nombre: ${pokemon.nombre}</p>
-                        <p>Altura: ${pokemon.altura}</p>
-                        <p>Peso: ${pokemon.peso}</p>
-                        <p>Categoria: ${pokemon.categoria}</p>
-                        <p>Habilidad: ${pokemon.habilidad}</p>
-                        <p>Tipo: ${pokemon.tipo}</p>
-                        <p>Imagen URL: ${pokemon.imagen_url}</p>
-                    </div>
-                `;
-            });
-        })
-        .catch(error => console.error('Error:', error));
 });

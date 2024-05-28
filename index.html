@@ -5,70 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pokedex CRUD</title>
     <style>
+        /* Estilos globales */
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5; /* Cambiar el color de fondo */
         }
-        form {
+
+        /* Estilos del encabezado */
+        header {
+            background-color: #e3350d; /* Cambiar el color de fondo */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Estilos del contenedor principal */
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 20px;
+            max-width: 1200px; /* Limitar el ancho máximo */
+            margin: 0 auto; /* Centrar el contenido */
+        }
+
+        /* Estilos de las columnas */
+        .column {
+            width: calc(30% - 20px);
+            margin-bottom: 40px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Agregar sombra */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        /* Estilos de los formularios */
+        .form {
             margin-bottom: 20px;
         }
+
         input, button {
             display: block;
-            margin: 5px 0;
-        }
-        .pokemon {
-            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            width: calc(100% - 20px);
             padding: 10px;
-            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Estilos del resultado */
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9; /* Cambiar el color de fondo */
         }
     </style>
 </head>
 <body>
-    <h1>Pokedex CRUD</h1>
+    <header>
+        <div class="header-container">
+            <img src="pokemon_logo.png" alt="Pokemon Logo"> <!-- Agregar el logo de Pokémon -->
+            <h1>Pokedex</h1>
+        </div>
+    </header>
 
-    <h2>Create Pokemon</h2>
-    <form id="createForm">
-        <input type="number" id="createNumero" placeholder="Numero" required>
-        <input type="text" id="createNombre" placeholder="Nombre" required>
-        <input type="number" id="createAltura" placeholder="Altura" required>
-        <input type="number" id="createPeso" placeholder="Peso" required>
-        <input type="text" id="createCategoria" placeholder="Categoria">
-        <input type="text" id="createHabilidad" placeholder="Habilidad">
-        <input type="text" id="createTipo" placeholder="Tipo">
-        <input type="text" id="createImagenUrl" placeholder="Imagen URL">
-        <button type="submit">Create</button>
-    </form>
+    <main class="container">
+        <section class="column">
+            <h2>Agregar nuevo Pokemon</h2>
+            <form id="createForm" class="form">
+                <input type="number" id="createNumero" placeholder="Number" required>
+                <input type="text" id="createNombre" placeholder="Name" required>
+                <input type="number" id="createAltura" placeholder="Height (cm)" required>
+                <input type="number" id="createPeso" placeholder="Weight (kg)" required>
+                <input type="text" id="createCategoria" placeholder="Category">
+                <input type="text" id="createHabilidad" placeholder="Ability">
+                <input type="text" id="createTipo" placeholder="Type">
+                <input type="text" id="createImagenUrl" placeholder="Image URL">
+                <button type="submit">Agregar</button>
+            </form>
+        </section>
 
-    <h2>Read Pokemon</h2>
-    <form id="readForm">
-        <input type="number" id="readId" placeholder="ID" required>
-        <button type="submit">Read</button>
-    </form>
-    <div id="readResult"></div>
+        <section class="column">
+            <h2>Actualizar Pokemon</h2>
+            <form id="updateForm" class="form">
+                <input type="number" id="updateId" placeholder="ID" required>
+                <input type="number" id="updateNumero" placeholder="Number" required>
+                <input type="text" id="updateNombre" placeholder="Name" required>
+                <input type="number" id="updateAltura" placeholder="Height (cm)" required>
+                <input type="number" id="updatePeso" placeholder="Weight (kg)" required>
+                <input type="text" id="updateCategoria" placeholder="Category">
+                <input type="text" id="updateHabilidad" placeholder="Ability">
+                <input type="text" id="updateTipo" placeholder="Type">
+                <input type="text" id="updateImagenUrl" placeholder="Image URL">
+                <button type="submit">Actualizar</button>
+            </form>
+        </section>
 
-    <h2>Update Pokemon</h2>
-    <form id="updateForm">
-        <input type="number" id="updateId" placeholder="ID" required>
-        <input type="number" id="updateNumero" placeholder="Numero" required>
-        <input type="text" id="updateNombre" placeholder="Nombre" required>
-        <input type="number" id="updateAltura" placeholder="Altura" required>
-        <input type="number" id="updatePeso" placeholder="Peso" required>
-        <input type="text" id="updateCategoria" placeholder="Categoria">
-        <input type="text" id="updateHabilidad" placeholder="Habilidad">
-        <input type="text" id="updateTipo" placeholder="Tipo">
-        <input type="text" id="updateImagenUrl" placeholder="Imagen URL">
-        <button type="submit">Update</button>
-    </form>
+        <section class="column">
+            <h2>Buscar Pokemon</h2>
+            <form id="readForm" class="form">
+                <input type="number" id="readId" placeholder="ID" required>
+                <button type="submit">Buscar</button>
+            </form>
+            <div id="readResult" class="result"></div>
+            
+            <h2>Eliminar Pokemon</h2>
+            <form id="deleteForm" class="form">
+                <input type="number" id="deleteId" placeholder="ID" required>
+                <button type="submit">Eliminar</button>
+            </form>
+            <div id="deleteResult" class="result"></div>
+            
+        </section>
 
-    <h2>Delete Pokemon</h2>
-    <form id="deleteForm">
-        <input type="number" id="deleteId" placeholder="ID" required>
-        <button type="submit">Delete</button>
-    </form>
-    <div id="deleteResult"></div>
-
-    <h2>All Pokemons</h2>
-    <button id="getAllPokemonsButton">Get All Pokemons</button>
-    <div id="allPokemonsResult"></div>
+        <section class="container">
+            <h2>Todos los Pokemones</h2>
+            <div id="allPokemonsResult" class="result"></div>
+        </section>
+    </main>
 
     <script src="app.js"></script>
 </body>
