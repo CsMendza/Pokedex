@@ -1,6 +1,7 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
 const port = 3000;
 
@@ -14,16 +15,27 @@ const db = mysql.createConnection({
 
 db.connect((err) => {
     if (err) throw err;
-    console.log('Connected to database');
+    console.log('Conectado a la base de datos');
 });
 
 app.use(bodyParser.json());
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Rutas CRUD en la ruta principal '/'
+
+app.get('/pokemons', (req, res) => {
+    const query = 'SELECT * FROM pokedex';
+    db.query(query, (err, results) => {
+        if (err) throw err;
+        res.json(results);
+    });
+});
+
 app.post('/', (req, res) => {
     const { numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url } = req.body;
-    const query = 'INSERT INTO Pokedex (numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-    db.query(query, [numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url], (err, result) => {
+    const query = 'INSERT INTO pokedex (numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+    db.query(query, [numero, nombre, parseFloat(altura), parseFloat(peso), categoria, habilidad, tipo, imagen_url], (err, result) => {
         if (err) throw err;
         res.send('Pokemon added');
     });
@@ -31,7 +43,7 @@ app.post('/', (req, res) => {
 
 app.get('/:id', (req, res) => {
     const { id } = req.params;
-    const query = 'SELECT * FROM Pokedex WHERE id = ?';
+    const query = 'SELECT * FROM pokedex WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) throw err;
         res.json(result);
@@ -41,8 +53,8 @@ app.get('/:id', (req, res) => {
 app.put('/:id', (req, res) => {
     const { id } = req.params;
     const { numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url } = req.body;
-    const query = 'UPDATE Pokedex SET numero = ?, nombre = ?, altura = ?, peso = ?, categoria = ?, habilidad = ?, tipo = ?, imagen_url = ? WHERE id = ?';
-    db.query(query, [numero, nombre, altura, peso, categoria, habilidad, tipo, imagen_url, id], (err, result) => {
+    const query = 'UPDATE pokedex SET numero = ?, nombre = ?, altura = ?, peso = ?, categoria = ?, habilidad = ?, tipo = ?, imagen_url = ? WHERE id = ?';
+    db.query(query, [numero, nombre, parseFloat(altura), parseFloat(peso), categoria, habilidad, tipo, imagen_url, id], (err, result) => {
         if (err) throw err;
         res.send('Pokemon updated');
     });
@@ -50,7 +62,7 @@ app.put('/:id', (req, res) => {
 
 app.delete('/:id', (req, res) => {
     const { id } = req.params;
-    const query = 'DELETE FROM Pokedex WHERE id = ?';
+    const query = 'DELETE FROM pokedex WHERE id = ?';
     db.query(query, [id], (err, result) => {
         if (err) throw err;
         res.send('Pokemon deleted');

@@ -1,17 +1,16 @@
-document.addEventListener('DOMContentLoaded', function() {
-    getAllPokemons();
-});
 
 function getAllPokemons() {
-    fetch('http://44.213.127.173:3000')
+    fetch('http://localhost:3000/pokemons')
         .then(response => response.json())
         .then(data => {
+            console.log('Data received from server:', data); // Añadir este console.log para depuración
             const resultDiv = document.getElementById('allPokemonsResult');
-            resultDiv.innerHTML = '';
-            data.forEach(pokemon => {
-                resultDiv.innerHTML += `
-                    <div class="pokemon">
-                        <p>ID: ${pokemon.id}</p>
+            resultDiv.innerHTML = ''; // Limpiar resultados anteriores
+            if (data.length) {
+                data.forEach(pokemon => {
+                    const pokemonDiv = document.createElement('div');
+                    pokemonDiv.classList.add('pokemon');
+                    pokemonDiv.innerHTML = `
                         <p>Numero: ${pokemon.numero}</p>
                         <p>Nombre: ${pokemon.nombre}</p>
                         <p>Altura: ${pokemon.altura}</p>
@@ -20,12 +19,17 @@ function getAllPokemons() {
                         <p>Habilidad: ${pokemon.habilidad}</p>
                         <p>Tipo: ${pokemon.tipo}</p>
                         <img src="${pokemon.imagen_url}" alt="${pokemon.nombre}"> <!-- Mostrar la imagen -->
-                    </div>
-                `;
-            });
+                    `;
+                    resultDiv.appendChild(pokemonDiv);
+                });
+            } else {
+                resultDiv.innerHTML = 'No se encontraron Pokémon';
+            }
         })
         .catch(error => console.error('Error:', error));
 }
+
+document.getElementById('showAllButton').addEventListener('click', getAllPokemons);
 
 document.getElementById('createForm').addEventListener('submit', function(e) {
     e.preventDefault();
@@ -41,7 +45,7 @@ document.getElementById('createForm').addEventListener('submit', function(e) {
         imagen_url: document.getElementById('createImagenUrl').value
     };
     
-    fetch('http://44.213.127.173:3000', {
+    fetch('http://localhost:3000', { // Cambiado a localhost
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -49,7 +53,10 @@ document.getElementById('createForm').addEventListener('submit', function(e) {
         body: JSON.stringify(data)
     })
     .then(response => response.text())
-    .then(data => alert(data))
+    .then(data => {
+        alert(data);
+        getAllPokemons(); // Recargar la lista de Pokémones
+    })
     .catch(error => console.error('Error:', error));
 });
 
@@ -58,7 +65,7 @@ document.getElementById('readForm').addEventListener('submit', function(e) {
     
     const id = document.getElementById('readId').value;
     
-    fetch(`http://44.213.127.173:3000/${id}`)
+    fetch(`http://localhost:3000/${id}`) // Cambiado a localhost
         .then(response => response.json())
         .then(data => {
             const resultDiv = document.getElementById('readResult');
@@ -79,7 +86,7 @@ document.getElementById('readForm').addEventListener('submit', function(e) {
                     </div>
                 `;
             } else {
-                resultDiv.innerHTML = 'No Pokemon found with that ID';
+                resultDiv.innerHTML = 'No se encontró un Pokémon con ese ID';
             }
         })
         .catch(error => console.error('Error:', error));
@@ -100,7 +107,7 @@ document.getElementById('updateForm').addEventListener('submit', function(e) {
         imagen_url: document.getElementById('updateImagenUrl').value
     };
     
-    fetch(`http://44.213.127.173:3000/${id}`, {
+    fetch(`http://localhost:3000/${id}`, { // Cambiado a localhost
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -108,7 +115,10 @@ document.getElementById('updateForm').addEventListener('submit', function(e) {
         body: JSON.stringify(data)
     })
     .then(response => response.text())
-    .then(data => alert(data))
+    .then(data => {
+        alert(data);
+        getAllPokemons(); // Recargar la lista de Pokémones
+    })
     .catch(error => console.error('Error:', error));
 });
 
@@ -117,13 +127,14 @@ document.getElementById('deleteForm').addEventListener('submit', function(e) {
     
     const id = document.getElementById('deleteId').value;
     
-    fetch(`http://44.213.127.173:3000/${id}`, {
+    fetch(`http://localhost:3000/${id}`, { // Cambiado a localhost
         method: 'DELETE'
     })
     .then(response => response.text())
     .then(data => {
         alert(data);
         document.getElementById('deleteResult').innerHTML = data;
+        getAllPokemons(); // Recargar la lista de Pokémones
     })
     .catch(error => console.error('Error:', error));
 });
