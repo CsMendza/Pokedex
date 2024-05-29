@@ -1,6 +1,6 @@
 
 function getAllPokemons() {
-    fetch('http://3.231.57.246:3000/pokemons')
+    fetch('http://54.211.176.87:3000/pokemons')
         .then(response => response.json())
         .then(data => {
             const resultDiv = document.getElementById('allPokemonsResult');
@@ -44,7 +44,7 @@ document.getElementById('createForm').addEventListener('submit', function(e) {
         imagen_url: document.getElementById('createImagenUrl').value
     };
     
-    fetch('http://3.231.57.246:3000', { 
+    fetch('http://54.211.176.87:3000', { 
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ document.getElementById('readForm').addEventListener('submit', function(e) {
     
     const id = document.getElementById('readId').value;
     
-    fetch(`http://3.231.57.246:3000/${id}`) 
+    fetch(`http://54.211.176.87:3000/${id}`) 
         .then(response => response.json())
         .then(data => {
             const resultDiv = document.getElementById('readResult');
@@ -106,7 +106,7 @@ document.getElementById('updateForm').addEventListener('submit', function(e) {
         imagen_url: document.getElementById('updateImagenUrl').value
     };
     
-    fetch(`http://3.231.57.246:3000/${id}`, { 
+    fetch(`http://54.211.176.87:3000/${id}`, { 
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -126,7 +126,7 @@ document.getElementById('deleteForm').addEventListener('submit', function(e) {
     
     const id = document.getElementById('deleteId').value;
     
-    fetch(`http://3.231.57.246:3000/${id}`, { 
+    fetch(`http://54.211.176.87:3000/${id}`, { 
         method: 'DELETE'
     })
     .then(response => response.text())
